@@ -127,6 +127,34 @@
 
   }
 
+  function registraCorso($db,$nomeCorso,$tutorInterno,$tutorEsterno,$codiceCorso,$annoScolastico,$nPartecipantiMin,$nPartecipantiMax,$foto,$monteore,$codCreatore){
+    
+    if($foto!=NULL){
+      $codImg = base64_encode($foto);
+      $sql = "INSERT INTO corso (denominazioneCorso,tutorInterno,tutorEsterno,codiceCorso,annoCorso,nPartecipantiMin,nPartecipantiMax,fotoCorso,monteOreCorso,codCreatore)
+      VALUES ('$nomeCorso','$tutorInterno','$tutorEsterno','$codiceCorso','$annoScolastico','$nPartecipantiMin','$nPartecipantiMax','$codImg','$monteore','$codCreatore')";
+  
+    }
+    else{
+      $sql = "INSERT INTO corso (denominazioneCorso,tutorInterno,tutorEsterno,codiceCorso,annoCorso,nPartecipantiMin,nPartecipantiMax,monteOreCorso,codCreatore)
+      VALUES ('$nomeCorso','$tutorInterno','$tutorEsterno','$codiceCorso','$annoScolastico','$nPartecipantiMin','$nPartecipantiMax','$monteore','$codCreatore')";
+  
+      $codImg ="NULL";
+    }
+   
+    $result = mysqli_query($db,$sql);
+
+    if($result===TRUE){
+        echo "dati inseriti";
+   
+    }else{
+        echo "fallito";
+    }
+
+    $db->close();
+
+  }
+
 
   function arrayProvince(){
     

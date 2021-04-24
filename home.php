@@ -64,9 +64,9 @@
             if($tipologiaDiProfilo == 1)
                 echo '
                 <ul>
-                    <li><a href="inScuola.php">Inserisci corsi</a></li>
-                    <li><a href="inReferente.php">visualizza corsi</a></li>
-                    <li><a href="infoScuola.php?CS='.$scuolaA.'">visualizza dati scuola</a></li>
+                    <li><a href="inCorsi.php">Inserisci corsi</a></li>
+                    <li><a href="vCorsi.php">visualizza corsi</a></li>
+                    <li><a href="infoScuola.php">visualizza dati scuola</a></li>
                 </ul>';
             if ($tipologiaDiProfilo == 0 )
                 echo '
