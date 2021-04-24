@@ -33,7 +33,7 @@
         <fieldset>
             <form action="home.php" method="POST">
                 <p><h1>Log in</h1></p>
-                <label><img src="img/letter.png"><input type="text" placeholder="Emaiciaol" name="user"></label><br><br>
+                <label><img src="img/letter.png"><input type="text" placeholder="Email" name="user"></label><br><br>
                 <label><img src="img/padlock.png"><input type="password" placeholder="Password" name="password"></label>
                 <?php if(isset($_GET['err']) && $_GET['err']==1) echo "<label style=color:red><h2>Email o password non corretti</h2></label>";?>
                 <p id="btnReg">Non registrato?<a href="signin.php">Registrati qui</a></p>
