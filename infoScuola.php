@@ -1,20 +1,8 @@
 <?php
     include "home.php";
-
-    if(!empty($_GET["CS"]))
-        $scuola = $_GET["CS"];
-    else    
-        $scuolapp = $scuolaA;    
-
-
-
-
-
-
-
     $sql = "Select areaGeografica,regione,provincia,
     codiceScuola,denominazioneScuola,indirizzoScuola,capScuola,codiceComuneScuola,
-    indirizzoEmailScuola,indirizzoPecScuola,sitoWebScuola,obiettivoOre from scuola where scuola.codiceScuola ='".$scuolapp."';";
+    indirizzoEmailScuola,indirizzoPecScuola,sitoWebScuola,obiettivoOre from scuola where scuola.codiceScuola ='".$_GET["CS"]."';";
     $result= mysqli_query($DB,$sql);
     $scuola =mysqli_fetch_assoc($result);
 
@@ -66,20 +54,6 @@
                     $Alunnisql = mysqli_query($DB,$Alunnisql);
                     while($row =  mysqli_fetch_assoc($Alunnisql))
                         echo "<tr><td>$row[cognome]</td><td>$row[nome]</td><td>$row[dataNascita]</td><td>$row[codFiscale]</td></tr>";
-                
-            ?>
-            </table>
-        </fieldset>
-
-        <fieldset> <legend>Corsi</legend>
-            <table>
-            <tr><th>Anno scolastico corso</th><th>Nome Corso</th><th>Tutor interno</th><th>tutor esterno</th><th>monte ore</th></tr>
-        <?php
-                
-                    $corsisql ="SELECT annoCorso,denominazioneCorso,tutorInterno,tutorEsterno,monteOreCorso FROM corso,utente WHERE corso.codCreatore = utente.id and utente.scuolaAppartenenza ='$scuolapp';";
-                    $corsisql = mysqli_query($DB,$corsisql);
-                    while($row =  mysqli_fetch_assoc($corsisql))
-                        echo "<tr><td>$row[annoCorso]</td><td>$row[denominazioneCorso]</td><td>$row[tutorInterno]</td><td>$row[tutorEsterno]</td><td>$row[monteOreCorso]</td></tr>";
                 
             ?>
             </table>
