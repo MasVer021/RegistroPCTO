@@ -61,14 +61,14 @@
                     <li><a href="inReferente.php">Inserisci referente PCTO</a></li>
                     <li><a href="vScuole.php">Visualizza Scuole</a></li>
                 </ul>';
-            if($tipologiaDiProfilo == 1)
+            if($tipologiaDiProfilo =="refPCTO")
                 echo '
                 <ul>
                     <li><a href="inCorsi.php">Inserisci corsi</a></li>
                     <li><a href="vCorsi.php">visualizza corsi</a></li>
                     <li><a href="infoScuola.php">visualizza dati scuola</a></li>
                 </ul>';
-            if ($tipologiaDiProfilo == 0 )
+            if ($tipologiaDiProfilo == "Std" )
                 echo '
                 <ul>
                 <li><a href="inScuola.php">visualizza corsi</a></li>

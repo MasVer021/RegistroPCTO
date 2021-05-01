@@ -5,16 +5,17 @@
     
   function autenticazioneUtente($db,$user,$password){
 
-    $_SESSION["ID"] = null;
-    $_SESSION["Foto"] = null;
-    $_SESSION["Nome"] = null;
-    $_SESSION["Cognome"] = null;
-    $_SESSION["DataN"] = null;
-    $_SESSION["LuogoN"] = null;
-    $_SESSION["Email"] = null;
-    $_SESSION["Password"] = null;
-    $_SESSION["CV"] = null;
-    $_SESSION["scuolaAppartenenza"] = null;
+    $_SESSION["ID"] = NULL;
+    $_SESSION["Nome"] = NULL;
+    $_SESSION["Cognome"] = NULL;
+    $_SESSION["Email"] = NULL;
+    $_SESSION["Password"] = NULL;
+    $_SESSION["DataN"] = NULL;
+    $_SESSION["CV"] = NULL;
+    $_SESSION["Foto"] = NULL;
+    $_SESSION["scuolaAppartenenza"]=NULL;
+    $_SESSION["classe"]=NULL;
+    $_SESSION["Tipo"] = NULL;
 
  
     
@@ -29,16 +30,16 @@
         while($row = mysqli_fetch_assoc($result))
             if($row['email']==$user && $row['password']==$password){
               $_SESSION["ID"] = $row['ID'];
-              $_SESSION["Foto"] = $row['fotoProfilo'];
               $_SESSION["Nome"] = $row['nome'];
-              $_SESSION["CV"] = $row['codFiscale'];
               $_SESSION["Cognome"] = $row['cognome'];
-              $_SESSION["DataN"] = $row['dataNascita'];
-              $_SESSION["LuogoN"] = $row['luogoNascita'];
               $_SESSION["Email"] = $row['email'];
               $_SESSION["Password"] = $row['password'];
+              $_SESSION["DataN"] = $row['dataNascita'];
+              $_SESSION["CV"] = $row['codiceFiscale'];
+              $_SESSION["Foto"] = $row['foto'];
+              $_SESSION["scuolaAppartenenza"]=$row['scuola'];
+              $_SESSION["classe"]=$row['classe'];
               $_SESSION["Tipo"] = $row['tipoProfilo'];
-              $_SESSION["scuolaAppartenenza"]=$row['scuolaAppartenenza'];
             }
       }else 
         echo "0 results";
