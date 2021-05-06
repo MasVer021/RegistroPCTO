@@ -37,8 +37,8 @@
               $_SESSION["DataN"] = $row['dataNascita'];
               $_SESSION["CV"] = $row['codiceFiscale'];
               $_SESSION["Foto"] = $row['foto'];
-              $_SESSION["scuolaAppartenenza"]=$row['scuola'];
-              $_SESSION["classe"]=$row['classe'];
+              $_SESSION["scuolaAppartenenza"]=$row['Scuola'];
+              $_SESSION["classe"]=$row['Classe'];
               $_SESSION["Tipo"] = $row['tipoProfilo'];
             }
       }else 
@@ -153,6 +153,23 @@
     }
 
     $db->close();
+
+  }
+
+
+  function registraAppuntamento($db,$data,$ora,$luogo,$premioOre,$corso){
+    $sql = "INSERT INTO appuntamento (data,ora,luogo,premioOre,corso) VALUES('$data','$ora','$luogo',$premioOre,$corso);";
+    $result = mysqli_query($db,$sql);
+
+    if($result===TRUE){
+        echo "dati inseriti";
+   
+    }else{
+        echo "fallito";
+    }
+
+    
+
 
   }
 

@@ -40,7 +40,6 @@
             echo "<p>Nome:<br>".$nome."</p>";
             echo "<p>Cognome:<br>".$cognome."</p>";
             echo "<p>Data nascita:<br>".$dataNascita."</p>";
-            echo "<p>Luogo nascita:<br>".$luogoNascita."</p>";
             echo "<p>Codice fiscale:<br>".$cv."</p>";
 
 
@@ -53,7 +52,7 @@
 
 
        <?php
-            if($tipologiaDiProfilo == 2)
+            if($tipologiaDiProfilo == "gSis")
             
                 echo '
                 <ul>
@@ -71,7 +70,7 @@
             if ($tipologiaDiProfilo == "Std" )
                 echo '
                 <ul>
-                <li><a href="inScuola.php">visualizza corsi</a></li>
+                <li><a href="vCorsi.php">visualizza corsi</a></li>
                 </ul>';
         ?>
     </div>

@@ -48,19 +48,17 @@
                 <label>Password:<input type="password" placeholder="Password" name="Password"></label><br><br>
                 <!--<label>Conferma password:<input type="text" placeholder="Conferma password" name="user"></label><br><br>
                     
-                <?phpif(isset($_GET['err']) && $_GET['err']==1) echo "<label style=color:red><h2>Email o password non corretti</h2></label>";?>-->
+                <?php if(isset($_GET['err']) && $_GET['err']==1) echo "<label style=color:red><h2>Email o password non corretti</h2></label>";?>-->
                 
                
-            <div class="container">
-                <div class="panel panel-default">
+            
                     Seleziona immagine di profilo
                     <div class="panel-body">
                         <input type="file" name="upload_image" id="upload_image" />
                             <br />
                             <div id="uploaded_image"></div>
                     </div>
-                </div>
-            </div>
+             
     
 
         <div id="uploadimageModal" class="modal" role="dialog">

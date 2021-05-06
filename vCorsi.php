@@ -1,6 +1,6 @@
 <?php
     include "home.php";
-    $sql = "SELECT denominazioneCorso,tutorInterno,tutorEsterno,monteOreCorso FROM corso,utente WHERE corso.codCreatore = utente.id and utente.scuolaAppartenenza ='". $scuolaA."';";
+    $sql = "SELECT corso.ID,corso.nome, tutorEsterno,anno,monteore, CONCAT(utente.cognome,' ',utente.nome)as 'tutorInterno' FROM corso,utente WHERE  utente.scuola =$scuolaA and corso.tutorcorso=utente.id ORDER BY corso.nome;";
     $result= mysqli_query($DB,$sql);
     
 
@@ -18,10 +18,11 @@
     <div>
         <table>
         <tr><th>Nome corso</th><th>tutor interno</th><th>tutor esterno</th><th>monte ore </th></tr>
+        
        <?php
             
             while($row = mysqli_fetch_assoc($result)){
-                echo "<tr><td>$row[denominazioneCorso]</td><td>$row[tutorInterno]</td><td>$row[tutorEsterno]</td><td>".$row['monteOreCorso']."</td>'</tr>";
+                echo "<tr><td><a href=appuntamento.php?ID=$row[ID]>$row[nome]</a></td><td>$row[tutorInterno]</td><td>$row[tutorEsterno]</td><td>".$row['monteore']."</td>'</tr>";
             }
         ?>
         </table>

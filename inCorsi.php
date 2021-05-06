@@ -56,6 +56,9 @@
 	<script src="js/bootstrap.min.js"></script>
     <script src="js/crop.js"></script>
 	<script src="js/croppie.js"></script>
+    
+    
+
 	<link rel="stylesheet" href="css/bootstrap.min.css" />
 	<link rel="stylesheet" href="css/croppie.css" />
     <title>Document</title>
@@ -70,19 +73,11 @@
             <input type="text" placeholder="annoScolastico" name="annoCorso"><br>
             <input type="number" placeholder="nPartecipanti minimo" name="nPartecipantiMin"><br>
             <input type="number" placeholder="nPartecipanti massimo" name="nPartecipantiMax"><br>
-            
-                
-                    Seleziona immagine corso
-                    
-                        <input type="file" name="upload_image" id="upload_image" />
-                            <br />
-                            <div id="uploaded_image"></div>
-                   
-              
-            
-    
-
-        <div id="uploadimageModal" class="modal" role="dialog">
+            Seleziona immagine corso
+            <input type="file" name="upload_image" id="upload_image" /><br />
+            <div id="uploaded_image"></div>                
+                            
+            <div id="uploadimageModal" class="modal" role="dialog">
             
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -117,5 +112,17 @@
         </form>
     
     </div>
+
+        
+
+
+
+
+
+
+
+
+
+
 </body>
 </html>
