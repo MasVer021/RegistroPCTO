@@ -40,6 +40,7 @@
               $_SESSION["scuolaAppartenenza"]=$row['Scuola'];
               $_SESSION["classe"]=$row['Classe'];
               $_SESSION["Tipo"] = $row['tipoProfilo'];
+              
             }
       }else 
         echo "0 results";

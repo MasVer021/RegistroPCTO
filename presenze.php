@@ -29,12 +29,13 @@
         <?php  
             if($pre)
                 while($row = mysqli_fetch_assoc($result)){
-                    echo "<tr><td><input type='checkbox'></input></td><td><input type='number' min='1' max=$data[premioOre]></input></td><td>$row[foto]</td><td>$row[cognome]</td><td>$row[nome]</td><td>$row[email]</td><td>$row[codiceFiscale]</td></tr>"; 
+
+                    echo "<tr><td><input type='checkbox'></input></td><td><input type='number' min='1' max=$data[premioOre] value=$data[premioOre]></input></td><td>$row[foto]</td><td>$row[cognome]</td><td>$row[nome]</td><td>$row[email]</td><td>$row[codiceFiscale]</td></tr>"; 
                 }
             else 
                 while($row = mysqli_fetch_assoc($result)){
                     echo "non è possibile prendere le presenze di un appuntamento ancora da svolgere";
-                    echo "<tr><td><input type='checkbox' disabled></input></td></td><td><input type='number' min='1' max=$data[premioOre] disabled></input></td><td>$row[foto]</td><td>$row[cognome]</td><td>$row[nome]</td><td>$row[email]</td><td>$row[codiceFiscale]</td></tr>"; 
+                    echo "<tr><td><input type='checkbox' disabled></input></td></td><td><input type='number' min='1' max=$data[premioOre] value=$data[premioOre] disabled></input></td><td>$row[foto]</td><td>$row[cognome]</td><td>$row[nome]</td><td>$row[email]</td><td>$row[codiceFiscale]</td></tr>"; 
                 }
 
          ?>

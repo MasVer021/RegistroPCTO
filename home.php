@@ -16,6 +16,9 @@
     $tipologiaDiProfilo = $_SESSION["Tipo"];
     $cv = $_SESSION["CV"];
     $scuolaA = $_SESSION["scuolaAppartenenza"];
+    $classeA=$_SESSION["classe"];
+    
+   
 ?>
 
 <!DOCTYPE html>

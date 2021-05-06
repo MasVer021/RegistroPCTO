@@ -2,7 +2,7 @@
     include "funzioni.php";
     $db = connessioneDB("localhost","root","","registropcto");
 
-    $sql = "Select denominazioneScuola,provincia,codiceScuola from scuola;";
+    $sql = "Select id,scuola.nome,scuola.provincia from scuola;";
     $result= mysqli_query($db,$sql);
     $_SESSION['foto'] = null;
     
@@ -18,6 +18,27 @@
 	<script src="js/bootstrap.min.js"></script>
     <script src="js/crop.js"></script>
 	<script src="js/croppie.js"></script>
+
+
+    
+        <script>
+        function mySchool() {
+            let request = new XMLHttpRequest();
+            request.onreadystatechange = function(){
+                let ris = this.responseText;
+                document.getElementById("classe").innerHTML="<option>selezione classe</option>"+ris;
+                
+                console.log(ris);
+                
+            }
+            let service = "classe.php?sc="+document.getElementById("scuola").value;
+            request.open("GET",service,true);
+            request.send();
+
+           
+        }
+        </script>
+
 	<link rel="stylesheet" href="css/bootstrap.min.css" />
 	<link rel="stylesheet" href="css/croppie.css" />
     <title>Signin</title>
@@ -34,9 +55,24 @@
                 <label>Nome:<input type="text" placeholder="nome" name="nome"></label><br><br>
                 <label>Cognome:<input type="text" placeholder="Cognome" name="cognome"></label><br><br>
                 <label>Data nascita:<input type="date" placeholder="Data nascita" name="dataN"></label><br><br>
-                <label>Luogo nascita:<input type="text" placeholder="Luogo nascita" name="luogoN"></label><br><br>
-                <label>Codice fiscale:<input type="text" placeholder="codice fisclae" name="cv"></label><br><br>
-                <label>scuola di appartenenza<input list="scuole" placeholder="scuola di appartenenza" name='scuolaApp'></label><br><br>
+                <label>Codice fiscale:<input type="text" placeholder="codice fiscale" name="cv"></label><br><br>
+                <label>scuola di appartenenza</label>
+              
+
+                <select id='scuola' name="scuola" onchange="mySchool()" >
+                    <option>selezione scuola</option>"
+                    <?php
+                        while($row = mysqli_fetch_assoc($result))
+                            echo "<option  value=".$row['id'].">".$row['nome']."-".$row['provincia']."</option>";
+                    ?>
+                </select><br><br>
+
+                <label>Classe</label>
+                <select id='classe' name="classe">
+                    <option>selezione classe</option>"
+                    
+                </select><br><br>
+                
                 <label>Email:<input type="text" placeholder="Email" name="email"></label><br><br>
                 <datalist id="scuole">
                     <?php
