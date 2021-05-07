@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrazione Scuola</title>
+    <script src="js/signin.js"></script>
+
+</head>
+<body onload="regioni(),provincie()">
+    <form action="prova.php" method="post">
+        <fieldset><legend>Dati scuola</legend>
+            
+                <label for="nomeScuola"> Nome scuola</label>
+                <input type="text" name="nomeScuola"><br>
+                <label for="regione"> Regione</label>
+                <select  name="regione" id="regione"></select><br>
+                <label for="provincia">Provincia</label>
+                <select  name="provincia" id="provincia"></select><br>
+                <label for="CAP">CAP</label>
+                <input  type="text" name="CAP" maxlength="5"><br>
+                <label for="indMail">Indirizzo mail</label>
+                <input  type="email" name="email"><br>
+                <label for="indPec">Indirizzo pec</label>
+                <input  type="email" name="PEC"><br>
+                <label for="sitoWeb">sito Web</label>
+                <input  type="url" name="sitoWeb"><br>
+                <label for="obieOre">Obiettivo ore</label>
+                <input  type="number" name="obieOre"><br> 
+        </fieldset>
+
+        <fieldset><legend>Dati classe</legend>
+            <label for="nCorsi">Inserire il numero di corsi</label>
+            <input type="number" id="nCorsi">
+            <button type="button" onclick="inClassi()">avanti</button>
+            <div  id="fClassi"></div>
+        </fieldset>
+
+        <fieldset  ><legend>Dati Referenti PCTO scuola</legend>
+            <label for="nReferenti">Inserire il numero di Referenti PCTO</label>
+            <input type="number" id="nReferenti">
+            <button  type="button" onclick="inReferenti()">avanti</button>
+            <div id="fReferenti"></div>  
+        </fieldset>
+        <input type="submit">
+    </form>
+</body>
+</html>
