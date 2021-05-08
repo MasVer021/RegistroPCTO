@@ -55,6 +55,7 @@
                 <label>Nome:<input type="text" placeholder="nome" name="nome"></label><br><br>
                 <label>Cognome:<input type="text" placeholder="Cognome" name="cognome"></label><br><br>
                 <label>Data nascita:<input type="date" placeholder="Data nascita" name="dataN"></label><br><br>
+                <label>Luogo nascita:<input type="text" placeholder="Luogo nascita" name="luogoN"></label><br><br>
                 <label>Codice fiscale:<input type="text" placeholder="codice fiscale" name="cv"></label><br><br>
                 <label>scuola di appartenenza</label>
               

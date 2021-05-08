@@ -9,13 +9,16 @@
         $file = NULL;
 
     $val = explode(",",giaRegistrato($db,$_POST['email']));
-    var_dump($val);
 
-    if($val[0]=="1" && $val[1]=="ToUp"){
-        $sql = "UPDATE utente SET nome='$_POST[nome]',cognome='$_POST[cognome]',dataNascita='$_POST[dataN]',luogoNascita='$_POST[luogoN]',codFiscale='$_POST[cv]',password='$_POST[Password]' WHERE utente.email='$_POST[email]';";
-        echo $sql;
-        $result = mysqli_query($db,$sql);
-        //echo "io entro";
+    if($val[0]=="refPCTO" && $val[1]=="ToUp"){
+        
+        if($file!=NULL)
+            $codImg = base64_encode($file);
+        else 
+            $codImg = null;
+
+        $sql = "UPDATE utente SET nome='$_POST[nome]',cognome='$_POST[cognome]',dataNascita='$_POST[dataN]',luogoNascita='$_POST[luogoN]',codiceFiscale='$_POST[cv]',password='$_POST[Password]' ,foto= '$codImg' WHERE utente.email='$_POST[email]';";
+        mysqli_query($db,$sql);
     }
     else 
         if($val[0]==""){
