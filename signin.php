@@ -31,7 +31,7 @@
                 console.log(ris);
                 
             }
-            let service = "classe.php?sc="+document.getElementById("scuola").value;
+            let service = "serverA.php?use=cla&&sc="+document.getElementById("scuola").value;
             request.open("GET",service,true);
             request.send();
 

@@ -1,9 +1,9 @@
 <?php
-    include "funzioni.php";
+    include "funzioni.php";  
     $DB = connessioneDB("localhost","root","","registropcto");
 
     if(empty($_SESSION["ID"]) or $_SESSION["ID"]==null)
-    autenticazioneUtente($DB,$_POST['user'],$_POST['password']);
+        autenticazioneUtente($DB,$_POST['user'],$_POST['password']);
 
     $id = $_SESSION["ID"];
     $foto = $_SESSION["Foto"];
@@ -15,14 +15,13 @@
     $password = $_SESSION["Password"];
     $tipologiaDiProfilo = $_SESSION["Tipo"];
     $cv = $_SESSION["CV"];
-    $scuolaA = $_SESSION["scuolaAppartenenza"];
-    $classeA=$_SESSION["classe"];
-    
-   
+    $annoS=$_SESSION["annoScolastico"];
+    $percorsoS=$_SESSION["percorsoS"];
+
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="it">
 <head>
     <link rel="stylesheet" href="css/Styles.css">
     <meta charset="UTF-8">
@@ -44,8 +43,6 @@
             echo "<p>Cognome:<br>".$cognome."</p>";
             echo "<p>Data nascita:<br>".$dataNascita."</p>";
             echo "<p>Codice fiscale:<br>".$cv."</p>";
-
-
             echo "<a href='Login.php'><div id='logout'>Logout</div></a>"
             
         ?>   
@@ -63,6 +60,7 @@
                     <li><a href="inReferente.php">Inserisci referente PCTO</a></li>
                     <li><a href="vScuole.php">Visualizza Scuole</a></li>
                 </ul>';
+                
             if($tipologiaDiProfilo =="refPCTO")
                 echo '
                 <ul>
@@ -70,11 +68,13 @@
                     <li><a href="vCorsi.php">visualizza corsi</a></li>
                     <li><a href="infoScuola.php">visualizza dati scuola</a></li>
                 </ul>';
+
             if ($tipologiaDiProfilo == "Std" )
                 echo '
                 <ul>
                 <li><a href="vCorsi.php">visualizza corsi</a></li>
-                </ul>';
+                <li><a href="">visualizza dettagli ore PCTO</a></li>
+                <ul>';  
         ?>
     </div>
 </body>

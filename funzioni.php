@@ -37,11 +37,9 @@
               $_SESSION["DataN"] = $row['dataNascita'];
               $_SESSION["CV"] = $row['codiceFiscale'];
               $_SESSION["Foto"] = $row['foto'];
-              $_SESSION["scuolaAppartenenza"]=$row['Scuola'];
-              $_SESSION["classe"]=$row['Classe'];
               $_SESSION["Tipo"] = $row['tipoProfilo'];
-              
             }
+
       }else 
         echo "0 results";
     }
@@ -50,7 +48,15 @@
      
     if(empty($_SESSION["Email"]))
       header("Location: login.php?err=1");
-      
+    else{
+      $sql="SELECT classe,annoScolastico,scuola FROM forma,classe,scuola WHERE Utente=$_SESSION[ID] and classe.scuola=scuola.id and forma.classe=classe.id;";
+      $result= mysqli_query($db,$sql);
+      $x=0;
+      while($row = mysqli_fetch_assoc($result)){
+        $_SESSION["percorsoS"][strval($row["annoScolastico"])]["classe"]=$row["classe"];
+        $_SESSION["percorsoS"][strval($row["annoScolastico"])]["scuola"]=$row["scuola"];  
+      }
+    }
     
     $db->close();  
   }
@@ -65,33 +71,31 @@
     return $conn;
   }
 
+ 
 
 
-  function registraUtente($db,$nome,$cognome,$dataNascita,$luogoNascita,$cv,$fotoProfilo,$scuolaAppartenenza,$email,$password,$tipoProfilo){
+  function registraUtente($db,$nome,$cognome,$email,$password,$dataNascita,$luogoNascita,$codiceFiscale,$foto,$tipoProfilo){
 
 
     
-    if($fotoProfilo!=NULL){
-      $codImg = base64_encode($fotoProfilo);
-      $sql = "INSERT INTO utente (ID,nome,cognome,dataNascita,luogoNascita,codFiscale,email,password,tipoProfilo,fotoProfilo,oreAccumulate,scuolaAppartenenza) 
-      VALUES (NULL,'$nome','$cognome','$dataNascita','$luogoNascita','$cv','$email','$password',$tipoProfilo,'$codImg',0,'$scuolaAppartenenza');";
+    if($foto!=NULL){
+      $codImg = base64_encode($foto);
+      $sql = "INSERT INTO utente (nome,cognome,email,password,datanascita,luogonascita,codicefiscale,foto,tipoprofilo) 
+      VALUES ('$nome','$cognome','$email','$password','$dataNascita','$luogoNascita','$codiceFiscale','$codImg','$tipoProfilo');";
     }
+
     else{
-      $sql = "INSERT INTO utente (ID,nome,cognome,dataNascita,luogoNascita,codFiscale,email,password,tipoProfilo,oreAccumulate,scuolaAppartenenza) 
-      VALUES (NULL,'$nome','$cognome','$dataNascita','$luogoNascita','$cv','$email','$password',$tipoProfilo,0,'$scuolaAppartenenza');";
-      $codImg ="NULL";
+      $sql = "INSERT INTO utente (nome,cognome,email,password,datanascita,luogonascita,codicefiscale,tipoprofilo) 
+      VALUES ('$nome','$cognome','$email','$password','$dataNascita','$luogoNascita','$codiceFiscale','$tipoProfilo');";
     }
     
-
-   
     $result = mysqli_query($db,$sql);
-
-    if($result===TRUE){
-        echo "dati inseriti";
    
-    }else{
-        echo "fallito";
-    }
+    if($result===TRUE)
+      return false;
+    else
+      echo "Sono stati riscontrati problemi tecnici nell inserimento dei dati dell' utente, contattare supporto tecnico";
+  
 
     $db->close();
 
@@ -109,26 +113,39 @@
       return NULL;
   }
 
-  function registraScuola($db,   $nomeScuola, $indirizzoScuola, $annoScolastico, $areaGeografica, $regione, $provincia, $codiceScuola, $codiceComuneScuola, $capScuola, $indirizzoEmailScuola, $indirizzoPecScuola, $sitoWebScuola ,$ObiettivoOrePCTO,$codiceCreatore){
-
-
-
-    $sql = "INSERT INTO scuola (annoScolastico,areaGeografica,regione,provincia,codiceScuola,denominazioneScuola,indirizzoScuola,capScuola,codiceComuneScuola,indirizzoEmailScuola,indirizzoPecScuola,sitoWebScuola,obiettivoOre,codCreatore) 
-    VALUES ('$annoScolastico','$areaGeografica','$regione','$provincia','$codiceScuola','$nomeScuola','$indirizzoScuola','$capScuola','$codiceComuneScuola','$indirizzoEmailScuola','$indirizzoPecScuola','$sitoWebScuola','$ObiettivoOrePCTO','$codiceCreatore');";
-
+  function registraScuola($db,$nomeScuola, $regione, $provincia, $capScuola,$indirizzoEmailScuola,$indirizzoPecScuola,$sitoWebScuola,$ObiettivoOrePCTO,$indirizzoScuola){
+    
+    $sql = "INSERT INTO scuola (nome,regione,provincia,CAP,indirizzoMail,indirizzoPEC,sitoWeb,obiettivoOre,indirizzo) 
+    VALUES ('$nomeScuola', '$regione', '$provincia', '$capScuola','$indirizzoEmailScuola','$indirizzoPecScuola','$sitoWebScuola',$ObiettivoOrePCTO,'$indirizzoScuola');";
     $result = mysqli_query($db,$sql);
 
-    if($result===TRUE){
-        echo "dati inseriti";
-   
-    }else{
-        echo "fallito";
-    }
+    if($result===TRUE)
+        return false;
+    else
+        echo "Sono stati riscontrati problemi tecnici nell inserimento dei dati della scuola, contattare supporto tecnico";
+    
 
     $db->close();
 
   }
 
+  function registraClasse($db,$anno,$sezione,$scuola){
+
+    $sql = "INSERT INTO classe (anno,sezione,scuola) 
+    VALUES ('$anno','$sezione','$scuola');";
+    $result = mysqli_query($db,$sql);
+
+    if($result===TRUE)
+        return false;
+    else
+        echo "Sono stati riscontrati problemi tecnici nell inserimento dei dati della classe, contattare supporto tecnico";
+    
+
+    $db->close();
+
+
+
+  }
   function registraCorso($db,$nomeCorso,$tutorInterno,$tutorEsterno,$codiceCorso,$annoScolastico,$nPartecipantiMin,$nPartecipantiMax,$foto,$monteore,$codCreatore){
     
     if($foto!=NULL){
