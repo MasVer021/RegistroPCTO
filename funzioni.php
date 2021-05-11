@@ -21,8 +21,7 @@
     
     $sql = "SELECT  * FROM utente;";
     
-    
-    
+
     
     if(isset($user) && isset($password)){
       $result= mysqli_query($db,$sql);
@@ -49,14 +48,17 @@
     if(empty($_SESSION["Email"]))
       header("Location: login.php?err=1");
     else{
-      $sql="SELECT classe,annoScolastico,scuola FROM forma,classe,scuola WHERE Utente=$_SESSION[ID] and classe.scuola=scuola.id and forma.classe=classe.id;";
+      $sql="SELECT classe,annoScolastico,scuola FROM forma,classe,scuola WHERE Utente=$_SESSION[ID] and classe.scuola=scuola.id and forma.classe=classe.id ORDER BY annoScolastico;";
+      echo $sql;
       $result= mysqli_query($db,$sql);
-      $x=0;
       while($row = mysqli_fetch_assoc($result)){
-        $_SESSION["percorsoS"][strval($row["annoScolastico"])]["classe"]=$row["classe"];
-        $_SESSION["percorsoS"][strval($row["annoScolastico"])]["scuola"]=$row["scuola"];  
+        
+        $_SESSION["percorsoS"][$row["annoScolastico"]]["classe"]=$row["classe"];
+        $_SESSION["percorsoS"][$row["annoScolastico"]]["scuola"]=$row["scuola"];
+        
       }
     }
+    
     
     $db->close();  
   }
@@ -146,17 +148,17 @@
 
 
   }
-  function registraCorso($db,$nomeCorso,$tutorInterno,$tutorEsterno,$codiceCorso,$annoScolastico,$nPartecipantiMin,$nPartecipantiMax,$foto,$monteore,$codCreatore){
+  function registraCorso($db,$nomeCorso,$tutorEsterno,$nPartecipantiMin,$nPartecipantiMax,$foto,$monteore){
     
     if($foto!=NULL){
       $codImg = base64_encode($foto);
-      $sql = "INSERT INTO corso (denominazioneCorso,tutorInterno,tutorEsterno,codiceCorso,annoCorso,nPartecipantiMin,nPartecipantiMax,fotoCorso,monteOreCorso,codCreatore)
-      VALUES ('$nomeCorso','$tutorInterno','$tutorEsterno','$codiceCorso','$annoScolastico','$nPartecipantiMin','$nPartecipantiMax','$codImg','$monteore','$codCreatore')";
+      $sql = "INSERT INTO corso (nome,tutorEsterno,foto,monteOre,nPartecipantiMin,nPartecipantiMax)
+      VALUES ('$nomeCorso','$tutorEsterno','$codImg',$monteore,$nPartecipantiMin,$nPartecipantiMax)";
   
     }
     else{
-      $sql = "INSERT INTO corso (denominazioneCorso,tutorInterno,tutorEsterno,codiceCorso,annoCorso,nPartecipantiMin,nPartecipantiMax,monteOreCorso,codCreatore)
-      VALUES ('$nomeCorso','$tutorInterno','$tutorEsterno','$codiceCorso','$annoScolastico','$nPartecipantiMin','$nPartecipantiMax','$monteore','$codCreatore')";
+      $sql = "INSERT INTO corso (nome,tutorEsterno,monteOre,nPartecipantiMin,nPartecipantiMax)
+      VALUES ('$nomeCorso','$tutorEsterno',$monteore,$nPartecipantiMin,$nPartecipantiMax)";
   
       $codImg ="NULL";
     }
@@ -170,7 +172,7 @@
         echo "fallito";
     }
 
-    $db->close();
+    
 
   }
 
@@ -181,16 +183,17 @@
 
     if($result===TRUE){
         echo "dati inseriti";
-   
     }else{
         echo "fallito";
     }
-
-    
-
-
   }
 
+  function annoScolastico(){
+    if(explode("/",date("d/m/Y"))[1]>7)
+      return explode("/",date("d/m/Y"))[2].(explode("/",date("d/m/Y"))[2]+1);
+    else 
+      return (explode("/",date("d/m/Y"))[2]-1).explode("/",date("d/m/Y"))[2];
+  }
 
   function arrayProvince(){
     

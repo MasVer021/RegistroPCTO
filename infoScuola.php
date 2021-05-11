@@ -7,13 +7,7 @@
         $scuolapp = $scuolaA;    
 
 
-
-
-
-
-
-    $sql = "Select indirizzo,regione,provincia,nome,codiceScuola,CAP,
-    indirizzomail,indirizzoPec,sitoWeb,obiettivoOre from scuola where scuola.id=".$scuolapp.";";
+    $sql = "Select nome,regione,provincia,CAP,indirizzomail,indirizzoPec,sitoWeb,obiettivoOre,indirizzo from scuola,lavora where lavora.scuola=".$scuolapp." and lavora.utente=$id;";
     $result= mysqli_query($DB,$sql);
     $scuola =mysqli_fetch_assoc($result);
 
@@ -41,48 +35,41 @@
         </fieldset>
 
 
-
-
-        <fieldset> <legend>Referenti PCTO</legend>
-            <table>
-            <tr><th>Cogome</th><th>Nome</th><th>Email</th><th>Data di nascita</th><th>Codice fiscale</th></tr>
-        <?php
-                
-                $Referentisql ="SELECT nome,cognome,dataNascita,codiceFiscale,email FROM utente WHERE utente.scuola = $scuolapp and utente.tipoProfilo = 'refPCTO' ORDER BY cognome;"; 
-                    $Referentisql = mysqli_query($DB,$Referentisql);
-                    while($row =  mysqli_fetch_assoc($Referentisql))
-                        echo "<tr><td>$row[cognome]</td><td>$row[nome]</td><td>$row[email]</td><td>$row[dataNascita]</td><td>$row[codiceFiscale]</td></tr>";
-            ?>
-            </table>
-        </fieldset>
-
-        <fieldset> <legend>Alunni</legend>
-            <table>
-            <tr><th>Cogome</th><th>Nome</th><th>Data di nascita</th><th>Codice fiscale</th><th>Classe</th></tr>
-        <?php
-                
-                    $Alunnisql ="SELECT nome,cognome,dataNascita,codiceFiscale,sezioneAnno FROM utente,classe WHERE utente.scuola = $scuolapp and utente.tipoProfilo = 'Std' and utente.Classe = Classe.id ORDER BY cognome;";
-                    $Alunnisql = mysqli_query($DB,$Alunnisql);
-                    while($row =  mysqli_fetch_assoc($Alunnisql))
-                        echo "<tr><td>$row[cognome]</td><td>$row[nome]</td><td>$row[dataNascita]</td><td>$row[codiceFiscale]</td><td>$row[sezioneAnno]</td></tr>";
-                
-            ?>
-            </table>
-        </fieldset>
-
-        <fieldset> <legend>Corsi</legend>
-            <table>
-            <tr><th>Anno scolastico corso</th><th>Nome Corso</th><th>Tutor interno</th><th>tutor esterno</th><th>monte ore</th></tr>
-        <?php
-                
-                    $corsisql ="SELECT corso.nome, tutorEsterno,anno,monteore, CONCAT(utente.cognome,' ',utente.nome)as 'tutorInterno' FROM corso,utente WHERE  utente.scuola =$scuolapp and corso.tutorcorso=utente.id ORDER BY corso.nome;";
-                    $corsisql = mysqli_query($DB,$corsisql);
-                    while($row =  mysqli_fetch_assoc($corsisql))
-                        echo "<tr><td>$row[anno]</td><td>$row[nome]</td><td>$row[tutorInterno]</td><td>$row[tutorEsterno]</td><td>$row[monteore]</td></tr>";
+        <fieldset> <legend>Classe</legend>
+            <?php 
+                    $classesql ="SELECT id,concat(anno,sezione)as nomeC FROM classe WHERE scuola='$scuolapp';";
+                    $classesql = mysqli_query($DB,$classesql);
+                    while($row =  mysqli_fetch_assoc($classesql)){
+                        echo "<fieldset><legend>$row[nomeC]</legend>";
+                        $referetesql ="SELECT nome,cognome,email,codicefiscale FROM utente,tutorpctoclasse WHERE utente.tipoProfilo = 'refPCTO' and tutorpctoclasse.classe='$row[id]' and tutorpctoclasse.utente=utente.id and annoscolastico=".annoScolastico()." ORDER BY cognome;";
+                        $referetesql = mysqli_query($DB,$referetesql);
+                        if(mysqli_num_rows($referetesql) ==0)
+                            echo "<table><tr><th>Non presenti referenti PCTO in questa classe durante il corrente anno scolastico</th></tr>";
+                        else
+                            echo "<table><tr><th>Cognome</th><th>Nome</th><th>Email</th><th>Codice fiscale</th><th>Ruolo</th></tr>";
+                        while($referentiClasse =  mysqli_fetch_assoc($referetesql)){
+                            echo "<tr><td>$referentiClasse[cognome]</td><td>$referentiClasse[nome]</td><td>$referentiClasse[email]</td><td>$referentiClasse[codicefiscale]</td><td>Referente PCTO classe</td></tr>";
+                        
+                            
+                        }
+                        $alunnisql ="SELECT nome,cognome,email,codicefiscale FROM utente,forma WHERE utente.tipoProfilo = 'Std' and forma.classe='$row[id]' and forma.utente=utente.id and annoscolastico=".annoScolastico()." ORDER BY cognome;";
+                        $alunnisql = mysqli_query($DB,$alunnisql);
+                        if(mysqli_num_rows($alunnisql) ==0)
+                            echo "<table><tr><th>Non presenti alunni in quest classe durante il corrente anno scolastico</th></tr>";
+                        else
+                            echo "<table><tr><th>Cognome</th><th>Nome</th><th>Email</th><th>Codice fiscale</th><th>Ruolo</th></tr>";
+                        while($alunniClasse =  mysqli_fetch_assoc($alunnisql)){
+                            echo "<tr><td>$alunniClasse[cognome]</td><td>$alunniClasse[nome]</td><td>$alunniClasse[email]</td><td>$alunniClasse[codicefiscale]</td><td>Studente</td></tr>";
+                        
+                            
+                        }
+                        echo "</table>";
+                        echo "</fieldset>";
+                    }
                 
             ?>
-            </table>
-        </fieldset>
+        </fieldset>    
+        
     </div>
 </body>
 </html>

@@ -82,7 +82,7 @@
                     ?>
                 </datalist>
 
-                <label>Password:<input type="password" placeholder="Password" name="Password"></label><br><br>
+                <label>Password:<input type="password" placeholder="Password" name="password"></label><br><br>
                 <!--<label>Conferma password:<input type="text" placeholder="Conferma password" name="user"></label><br><br>
                     
                 <?php if(isset($_GET['err']) && $_GET['err']==1) echo "<label style=color:red><h2>Email o password non corretti</h2></label>";?>-->

@@ -1,6 +1,8 @@
 <?php
     include "home.php";
-    $sql = "SELECT corso.ID,corso.nome, tutorEsterno,anno,monteore, CONCAT(utente.cognome,' ',utente.nome)as 'tutorInterno' FROM corso,utente WHERE  utente.scuola =$scuolaA and corso.tutorcorso=utente.id ORDER BY corso.nome;";
+    $anno = annoScolastico();
+    $sql =     "SELECT corso.ID,corso.nome, tutorEsterno,monteore,CONCAT(utente.cognome,utente.nome) as tutorInterno FROM corso,attivato,classe,utente,tutorcorso WHERE tutorcorso.utente=utente.id and tutorcorso.corso=corso.id and tutorcorso.annoscolastico=$anno and attivato.corso=corso.id and attivato.classe=classe.id and classe.scuola='$scuolaA' and attivato.annoscolastico=$anno group by corso.id,utente.id;";
+
     $result= mysqli_query($DB,$sql);
     
 

@@ -15,9 +15,13 @@
     $password = $_SESSION["Password"];
     $tipologiaDiProfilo = $_SESSION["Tipo"];
     $cv = $_SESSION["CV"];
-    $annoS=$_SESSION["annoScolastico"];
     $percorsoS=$_SESSION["percorsoS"];
+    $max=0;
+    foreach($percorsoS as $valore =>$key)
+        if($valore>$max)
+            $max=$valore;
 
+   $scuolaA= $percorsoS[$max]['scuola'];    
 ?>
 
 <!DOCTYPE html>
