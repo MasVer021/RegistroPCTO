@@ -2,6 +2,7 @@
     include "home.php";
     
     $somma = 0;
+	$anno = annoScolastico();
    
 if(!empty($_POST['numberore'] ))
     foreach($_POST['numberore'] as $valore)
@@ -17,7 +18,7 @@ if(!empty($_POST['numberore'] ))
     if(!empty($_POST['date']))
         if($somma+$row['oreImpostate']<=$row['monteore']) 
             for($x=1;$x<count($_POST['date'])+1;$x++){
-                registraAppuntamento($DB,$_POST['date'][$x],$_POST['time'][$x],$_POST['luogo'][$x],$_POST['numberore'][$x],$_GET['ID']);
+                registraAppuntamento($DB,$_POST['date'][$x],$_POST['time'][$x],$_POST['luogo'][$x],$_POST['numberore'][$x],$_GET['ID'],$anno);
             }
         else
             echo "impostate più ore di quelle del corso";

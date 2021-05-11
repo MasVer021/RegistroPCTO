@@ -60,7 +60,7 @@
     }
     
     
-    $db->close();  
+     
   }
 
   function connessioneDB($nomeHost,$nomeuser,$password,$nomeDb){
@@ -177,8 +177,8 @@
   }
 
 
-  function registraAppuntamento($db,$data,$ora,$luogo,$premioOre,$corso){
-    $sql = "INSERT INTO appuntamento (data,ora,luogo,premioOre,corso) VALUES('$data','$ora','$luogo',$premioOre,$corso);";
+  function registraAppuntamento($db,$data,$ora,$luogo,$premioOre,$corso,$annoScolastico){
+    $sql = "INSERT INTO appuntamento (data,ora,luogo,premioOre,corso,annoScolastico) VALUES('$data','$ora','$luogo',$premioOre,$corso,$annoScolastico);";
     $result = mysqli_query($db,$sql);
 
     if($result===TRUE){
@@ -193,6 +193,31 @@
       return explode("/",date("d/m/Y"))[2].(explode("/",date("d/m/Y"))[2]+1);
     else 
       return (explode("/",date("d/m/Y"))[2]-1).explode("/",date("d/m/Y"))[2];
+  }
+
+
+  function registraPresenza($db,$appuntamento,$utente,$presente,$orePresenza,$up){
+
+    $stato = "'Assente'";
+  if($presente == "on")
+    $stato = "'Presente'";
+
+    if($up)
+      $sql = "UPDATE presente SET `orePresente`=$orePresenza,Stato=$stato WHERE appuntamento=$appuntamento and utente=$utente;";
+    else
+      $sql = "INSERT INTO presente (appuntamento,utente,orePresente,stato) VALUES($appuntamento,$utente,$orePresenza,$stato);";
+
+
+    
+    $result = mysqli_query($db,$sql);
+
+     echo $sql."ciao";
+
+    if($result===TRUE)
+        return false;
+    else
+        echo "Sono stati riscontrati problemi tecnici nell inserimento dei dati delle presenze, contattare supporto tecnico";
+
   }
 
   function arrayProvince(){

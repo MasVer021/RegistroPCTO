@@ -21,7 +21,18 @@
         if($valore>$max)
             $max=$valore;
 
-   $scuolaA= $percorsoS[$max]['scuola'];    
+	$scuolaA= $percorsoS[$max]['scuola']; 
+	$classeA=$percorsoS[$max]['classe']; 
+    if($tipologiaDiProfilo == "Std"){
+
+    
+    $OrePCTO = mysqli_fetch_assoc(mysqli_query($DB,"SELECT SUM(orePresente) as oreP from presente where utente = $id and stato='Presente' ;"))['oreP'];
+    
+    }
+   
+
+
+
 ?>
 
 <!DOCTYPE html>
@@ -47,7 +58,10 @@
             echo "<p>Cognome:<br>".$cognome."</p>";
             echo "<p>Data nascita:<br>".$dataNascita."</p>";
             echo "<p>Codice fiscale:<br>".$cv."</p>";
+            if($tipologiaDiProfilo == "Std")
+                echo "<p>Ore di PCTO svolte :<br>".$OrePCTO."</p>";
             echo "<a href='Login.php'><div id='logout'>Logout</div></a>"
+
             
         ?>   
     </div>
@@ -77,7 +91,7 @@
                 echo '
                 <ul>
                 <li><a href="vCorsi.php">visualizza corsi</a></li>
-                <li><a href="">visualizza dettagli ore PCTO</a></li>
+                <li><a href="infoOrePCTO.php">visualizza dettagli ore PCTO</a></li>
                 <ul>';  
         ?>
     </div>

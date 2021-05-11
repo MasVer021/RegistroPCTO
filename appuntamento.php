@@ -1,13 +1,14 @@
 <?php
     include "home.php";
+	$anno = annoScolastico();
     
-    $sql = "SELECT data,ora,luogo,premioore,id FROM appuntamento WHERE corso=$_GET[ID];";
+    $sql = "SELECT data,ora,luogo,premioore,id FROM appuntamento WHERE corso=$_GET[ID] and annoscolastico=$anno;";
     $result= mysqli_query($DB,$sql);
     $iscrivibile = false;
 
 
     if(!empty($_POST) && $_POST['iscrizione']="Iscriviti"){
-        $queryIsc="INSERT INTO iscritto (utente,corso) Values ($id,$_GET[ID]);";
+        $queryIsc="INSERT INTO iscritto (utente,corso,annoScolastico) Values ($id,$_GET[ID],'$anno');";
         mysqli_query($DB,$queryIsc);
         
     }
@@ -46,7 +47,7 @@
                 echo '<form method="POST" action=# ><input type="submit" value="Iscritto" disabled></input></form>';
             else{
                 
-                $sqli = "SELECT classe FROM attivato WHERE corso=$_GET[ID];";
+                $sqli = "SELECT classe FROM attivato WHERE corso=$_GET[ID] and annoScolastico='$anno';";
                 $resulti= mysqli_query($DB,$sqli);
                 while($rowi = mysqli_fetch_assoc($resulti))
                     if($rowi['classe']=$classeA)
