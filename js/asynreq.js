@@ -55,3 +55,75 @@ function inClassi(){
     }
     
 }
+
+function annoS() {
+    let request = new XMLHttpRequest();
+    request.onreadystatechange = function(){
+        let ris = this.responseText;
+        console.log(ris);
+    }
+    let service = "serverA.php?use=ans&&an="+document.getElementById("annoScol").value;
+
+    console.log(service);
+    request.open("GET",service,true);
+    request.send();
+
+   
+}
+function infoScuola(scuola,id) {
+    let request = new XMLHttpRequest();
+    request.onreadystatechange = function(){
+        let ris = this.responseText;
+        document.getElementById("datiscuola").innerHTML=ris;
+    }
+    let service = "serverA.php?use=ins&&sc="+scuola+"&&anno="+document.getElementById("annoScol").value+"&&utente="+id+"";
+
+    console.log(service);
+
+    request.open("GET",service,true);
+    request.send();
+}
+function Vcorsi(scuola) {
+    let request = new XMLHttpRequest();
+    request.onreadystatechange = function(){
+        let ris = this.responseText;
+        document.getElementById("corsi").innerHTML=ris;
+        console.log(ris);
+    }
+    let service = "serverA.php?use=vco&&sc="+scuola+"&&anno="+document.getElementById("annoScol").value;
+    console.log(service);
+    console.log(service);
+    request.open("GET",service,true);
+    request.send();
+}
+function mySchool() {
+    let request = new XMLHttpRequest();
+    request.onreadystatechange = function(){
+        let ris = this.responseText;
+        document.getElementById("classe").innerHTML="<option>selezione classe</option>"+ris;
+        
+        console.log(ris);
+        
+    }
+    let service = "serverA.php?use=cla&&sc="+document.getElementById("scuola").value;
+    request.open("GET",service,true);
+    request.send();
+}
+
+function noCAnno(){
+    document.getElementById("annoScol").disabled = true;
+}
+
+function classiRef(id){
+    let request = new XMLHttpRequest();
+    request.onreadystatechange = function(){
+        let ris = this.responseText;
+        document.getElementById("classiRefPCTO").innerHTML=ris;
+        
+        
+        
+    }
+    let service = "serverA.php?use=vic&&anno="+document.getElementById("annoScol").value+"&&utente="+id+"";
+    request.open("GET",service,true);
+    request.send();
+}

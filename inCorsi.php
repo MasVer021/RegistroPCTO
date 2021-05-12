@@ -19,20 +19,17 @@
     if(!empty($_POST['tutorEsterno']))
         $tutorEsterno = $_POST['tutorEsterno'];
     else
-        $tutorEsterno = null;
-    
-   
-    
-    
+        $tutorEsterno = 'null';
+
     if(!empty($_POST['nPartecipantiMin']))
         $nPartecipantiMin = $_POST['nPartecipantiMin'];
     else
-        $nPartecipantiMin = null;
+        $nPartecipantiMin = 'null';
     
     if(!empty($_POST['nPartecipantiMax']))
         $nPartecipantiMax = $_POST['nPartecipantiMax'];
     else
-        $nPartecipantiMax = null;
+        $nPartecipantiMax = 'null';
 
     if(!empty($_POST['oreCorso']))
         $oreCorso = $_POST['oreCorso'];
@@ -40,7 +37,7 @@
         $oreCorso = null;
     
     $anno = annoScolastico();
-
+    
     if($nomeCorso!=null && $tutorInterno!=null && $oreCorso!=null){
         registraCorso($DB,$nomeCorso,$tutorEsterno,$nPartecipantiMin,$nPartecipantiMax,$_SESSION['foto'],$oreCorso);
         $idc1="SELECT id from corso where nome='$nomeCorso' and tutorEsterno='$tutorEsterno' and monteore=$oreCorso;";
@@ -53,8 +50,8 @@
        
         $RinS="INSERT INTO tutorcorso (corso,utente,annoscolastico)VALUES($idc4,$tutorInterno,'$anno');";
         mysqli_query($DB,$RinS);
-
-        foreach($_POST['classe'] as $classe){
+        
+        foreach(array_unique($_POST['classe']) as $classe){
             $CinA="INSERT INTO attivato (classe,corso,annoscolastico) VALUES($classe,$idc4,'$anno');";
             mysqli_query($DB,$CinA);
         }
@@ -81,17 +78,7 @@
         
                 for(let x=0;x<nClassi;x++)  
                     document.getElementById("classi").innerHTML+="<select name=classe["+x+"]> <?php while($row = mysqli_fetch_assoc($result)) echo "<option  value="."$row[ID]".">".$row['nClasse']."</option>"; ?></select>";
-                   
-                        
-                            
-                        
-                   
-                    
-                    
-                
-        
-                
-         
+    
         }
     
     
@@ -107,13 +94,13 @@
 
     <title>Document</title>
 </head>
-<body>
+<body onload="noCAnno()">
     <div>
         <form action="inCorsi.php" method="POST">
             <input type="text" placeholder="nome corso" name="nomeCorso"><br>
             <select name="tutorInterno" >
                 <?php
-                    $referenti =mysqli_query($DB, "SELECT nome, cognome, ID from utente, lavora where utente.tipoProfilo='refPCTO' and lavora.scuola='$scuolaA' and lavora.utente=utente.id and annoScolastico='$anno';");
+                    $referenti =mysqli_query($DB, "SELECT nome, cognome, ID from utente, lavora where utente.tipoProfilo='refPCTO' and lavora.scuola='$scuolaA' and lavora.utente=utente.id and annoScolastico='$anno' and utente.nome!='ToUp';");
                     echo "<option>Seleziona Tutor interno corso</option>";
                     while($ref = mysqli_fetch_assoc($referenti))
                         echo "<option  value="."$ref[ID]".">".$ref['cognome']." ".$ref['nome']."</option>";

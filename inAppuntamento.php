@@ -2,6 +2,7 @@
     include "home.php";
     
     $somma = 0;
+
 	$anno = annoScolastico();
    
 if(!empty($_POST['numberore'] ))
@@ -83,7 +84,7 @@ if(!empty($_POST['numberore'] ))
         </script>    
 
     </head>
-    <body>
+    <body onload="noCAnno()">
       <?php
         if($tipologiaDiProfilo =="refPCTO")
                 echo '

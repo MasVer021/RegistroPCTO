@@ -2,11 +2,15 @@
     include "funzioni.php";  
     $DB = connessioneDB("localhost","root","","registropcto");
 
-    if(empty($_SESSION["ID"]) or $_SESSION["ID"]==null)
+    if(empty($_SESSION["ID"]) or $_SESSION["ID"]==null){
         autenticazioneUtente($DB,$_POST['user'],$_POST['password']);
+        $_SESSION['Fotop'] = $_SESSION["Foto"];
+    }
 
+       
+   
     $id = $_SESSION["ID"];
-    $foto = $_SESSION["Foto"];
+    $foto = $_SESSION["Fotop"];
     $nome = $_SESSION["Nome"];
     $cognome = $_SESSION["Cognome"];
     $dataNascita = $_SESSION["DataN"];
@@ -17,17 +21,24 @@
     $cv = $_SESSION["CV"];
     $percorsoS=$_SESSION["percorsoS"];
     $max=0;
+    
     foreach($percorsoS as $valore =>$key)
         if($valore>$max)
             $max=$valore;
 
 	$scuolaA= $percorsoS[$max]['scuola']; 
-	$classeA=$percorsoS[$max]['classe']; 
-    if($tipologiaDiProfilo == "Std"){
+	 
+    foreach($percorsoS as $anno => $Sc)
+        $annoS[]= substr($anno,0,4)."/".substr($anno,4,4);
+    
+        arsort($annoS);
+        
+    $annoScolastico=null;
 
     
-    $OrePCTO = mysqli_fetch_assoc(mysqli_query($DB,"SELECT SUM(orePresente) as oreP from presente where utente = $id and stato='Presente' ;"))['oreP'];
-    
+    if($tipologiaDiProfilo == "Std"){
+        $OrePCTO = mysqli_fetch_assoc(mysqli_query($DB,"SELECT SUM(orePresente) as oreP from presente where utente = $id and stato='Presente' ;"))['oreP'];
+        $classeA=$percorsoS[$max]['classe'];
     }
    
 
@@ -43,7 +54,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/Styles.css?ts=<?=time()?>&quot">
+    <script src="js/asynreq.js"></script>
     <title>Document</title>
+
     
 </head>
 <body>
@@ -60,39 +73,69 @@
             echo "<p>Codice fiscale:<br>".$cv."</p>";
             if($tipologiaDiProfilo == "Std")
                 echo "<p>Ore di PCTO svolte :<br>".$OrePCTO."</p>";
-            echo "<a href='Login.php'><div id='logout'>Logout</div></a>"
-
+            echo "<a href='Login.php'><div id='logout'>Logout</div></a>";
             
         ?>   
     </div>
+<?php
+    
+?>
+
+
+
 
     <div id="horizontalMenu">
-
+   
 
        <?php
-            if($tipologiaDiProfilo == "gSis")
+        foreach($annoS as $a) {
+            $codanno=substr($a,0,4).substr($a,5,4);
+            if ($codanno == $_SESSION['annoS'])
+                $annoScolastico= $annoScolastico."<option selected  value=".$codanno.">".$a."</option>";
+            else 
+                $annoScolastico= $annoScolastico."<option value=".$codanno.">".$a."</option>";
+
+        }
+            if($tipologiaDiProfilo == "gSis"){
             
                 echo '
-                <ul>
-                    <li><a href="inScuola.php">Inserisci Scuola</a></li>
-                    <li><a href="inReferente.php">Inserisci referente PCTO</a></li>
-                    <li><a href="vScuole.php">Visualizza Scuole</a></li>
-                </ul>';
+                    <ul>
+                        <li><a href="inScuola.php">Inserisci Scuola</a></li>
+                        <li><a href="inReferente.php">Inserisci referente PCTO</a></li>
+                        <li><a href="vScuole.php">Visualizza Scuole</a></li>
+                        <li>
+                            <label>Anno scolastico:</label>
+                            <select id="annoScol" onchange="annoS(),Vcorsi('.$scuolaA.'),infoScuola()">'.$annoScolastico.'</select>
+                        </li>                    
+                    </ul>';
+            }
                 
-            if($tipologiaDiProfilo =="refPCTO")
+            if($tipologiaDiProfilo =="refPCTO"){
                 echo '
-                <ul>
-                    <li><a href="inCorsi.php">Inserisci corsi</a></li>
-                    <li><a href="vCorsi.php">visualizza corsi</a></li>
-                    <li><a href="infoScuola.php">visualizza dati scuola</a></li>
+                    <ul>
+                        <li><a href="inCorsi.php">Inserisci corsi</a></li>
+                        <li><a href="vCorsi.php">visualizza corsi</a></li>
+                        <li><a href="infoOreClasse.php">visualizza ore PCTO corsi</a></li>
+                        <li><a href="infoOreClasse.php">visualizza ore PCTO classe</a></li>
+                        <li><a href="infoScuola.php">visualizza dati scuola</a></li>
+                        <li><label>Anno scolastico:</label><select  id="annoScol" onchange="annoS(),Vcorsi('.$scuolaA.'),infoScuola('.$scuolaA.','.$id.'),classiRef('.$id.')">'.$annoScolastico.'</select></li>
+                                        
                 </ul>';
+            }
 
-            if ($tipologiaDiProfilo == "Std" )
+            if ($tipologiaDiProfilo == "Std" ){
                 echo '
-                <ul>
-                <li><a href="vCorsi.php">visualizza corsi</a></li>
-                <li><a href="infoOrePCTO.php">visualizza dettagli ore PCTO</a></li>
-                <ul>';  
+                    <ul>
+                        <li><a href="vCorsi.php">visualizza corsi</a></li>
+                        <li><a href="infoOrePCTO.php">visualizza dettagli ore PCTO</a></li>
+                        <li>
+                        <label>Anno scolastico:</label>
+                        <select  id="annoScol" onchange="annoS(),Vcorsi('.$scuolaA.')">'.$annoScolastico.'</select>
+                    </li>                    
+                </ul>';
+            }
+
+            
         ?>
     </div>
 </body>

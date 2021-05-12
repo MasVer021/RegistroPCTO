@@ -18,27 +18,7 @@
 	<script src="js/bootstrap.min.js"></script>
     <script src="js/crop.js"></script>
 	<script src="js/croppie.js"></script>
-
-
-    
-        <script>
-        function mySchool() {
-            let request = new XMLHttpRequest();
-            request.onreadystatechange = function(){
-                let ris = this.responseText;
-                document.getElementById("classe").innerHTML="<option>selezione classe</option>"+ris;
-                
-                console.log(ris);
-                
-            }
-            let service = "serverA.php?use=cla&&sc="+document.getElementById("scuola").value;
-            request.open("GET",service,true);
-            request.send();
-
-           
-        }
-        </script>
-
+    <script src="js/asynreq.js"></script>
 	<link rel="stylesheet" href="css/bootstrap.min.css" />
 	<link rel="stylesheet" href="css/croppie.css" />
     <title>Signin</title>

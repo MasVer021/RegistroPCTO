@@ -29,7 +29,7 @@
         
 
     </head>
-    <body>
+    <body onload="noCAnno()">
       <?php
         if($tipologiaDiProfilo =="refPCTO")
                 echo '

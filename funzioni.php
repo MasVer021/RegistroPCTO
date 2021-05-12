@@ -16,7 +16,7 @@
     $_SESSION["scuolaAppartenenza"]=NULL;
     $_SESSION["classe"]=NULL;
     $_SESSION["Tipo"] = NULL;
-
+    $_SESSION["percorsoS"]=NULL;
  
     
     $sql = "SELECT  * FROM utente;";
@@ -48,20 +48,29 @@
     if(empty($_SESSION["Email"]))
       header("Location: login.php?err=1");
     else{
-      $sql="SELECT classe,annoScolastico,scuola FROM forma,classe,scuola WHERE Utente=$_SESSION[ID] and classe.scuola=scuola.id and forma.classe=classe.id ORDER BY annoScolastico;";
-      echo $sql;
-      $result= mysqli_query($db,$sql);
-      while($row = mysqli_fetch_assoc($result)){
+      if( $_SESSION["Tipo"]=='Std' or  $_SESSION["Tipo"]=='exUt'){
+        $sql="SELECT classe,annoScolastico,scuola FROM forma,classe,scuola WHERE Utente=$_SESSION[ID] and classe.scuola=scuola.id and forma.classe=classe.id ORDER BY annoScolastico;";
+        $result= mysqli_query($db,$sql);
+        while($row = mysqli_fetch_assoc($result)){
+          $_SESSION["percorsoS"][$row["annoScolastico"]]["classe"]=$row["classe"];
+          $_SESSION["percorsoS"][$row["annoScolastico"]]["scuola"]=$row["scuola"];
+        }
+      }
+      elseif ( $_SESSION["Tipo"]=='refPCTO'){
+        $sql="SELECT annoScolastico,scuola FROM lavora WHERE Utente=$_SESSION[ID] ORDER BY annoScolastico;";
+        $result= mysqli_query($db,$sql);
+        while($row = mysqli_fetch_assoc($result))
+          $_SESSION["percorsoS"][$row["annoScolastico"]]["scuola"]=$row["scuola"];
+          
         
-        $_SESSION["percorsoS"][$row["annoScolastico"]]["classe"]=$row["classe"];
-        $_SESSION["percorsoS"][$row["annoScolastico"]]["scuola"]=$row["scuola"];
+      }
         
       }
     }
     
     
      
-  }
+  
 
   function connessioneDB($nomeHost,$nomeuser,$password,$nomeDb){
 
@@ -98,8 +107,8 @@
     else
       echo "Sono stati riscontrati problemi tecnici nell inserimento dei dati dell' utente, contattare supporto tecnico";
   
-
-    $db->close();
+    $_SESSION["Foto"] = NULL;
+    
 
   }
 
@@ -125,10 +134,6 @@
         return false;
     else
         echo "Sono stati riscontrati problemi tecnici nell inserimento dei dati della scuola, contattare supporto tecnico";
-    
-
-    $db->close();
-
   }
 
   function registraClasse($db,$anno,$sezione,$scuola){
@@ -141,13 +146,8 @@
         return false;
     else
         echo "Sono stati riscontrati problemi tecnici nell inserimento dei dati della classe, contattare supporto tecnico";
-    
-
-    $db->close();
-
-
-
   }
+
   function registraCorso($db,$nomeCorso,$tutorEsterno,$nPartecipantiMin,$nPartecipantiMax,$foto,$monteore){
     
     if($foto!=NULL){
@@ -162,7 +162,7 @@
   
       $codImg ="NULL";
     }
-   
+   echo $sql ;
     $result = mysqli_query($db,$sql);
 
     if($result===TRUE){
@@ -171,7 +171,8 @@
     }else{
         echo "fallito";
     }
-
+   
+    $_SESSION["Foto"] = NULL;
     
 
   }
