@@ -7,8 +7,6 @@
         $_SESSION['Fotop'] = $_SESSION["Foto"];
     }
 
-       
-   
     $id = $_SESSION["ID"];
     $foto = $_SESSION["Fotop"];
     $nome = $_SESSION["Nome"];
@@ -34,10 +32,12 @@
         arsort($annoS);
         
     $annoScolastico=null;
-
+    $annoS=array_unique($annoS);
     
     if($tipologiaDiProfilo == "Std"){
         $OrePCTO = mysqli_fetch_assoc(mysqli_query($DB,"SELECT SUM(orePresente) as oreP from presente where utente = $id and stato='Presente' ;"))['oreP'];
+        if($OrePCTO==NULL)
+            $OrePCTO=0;
         $classeA=$percorsoS[$max]['classe'];
     }
    
@@ -90,35 +90,38 @@
        <?php
         foreach($annoS as $a) {
             $codanno=substr($a,0,4).substr($a,5,4);
-            if ($codanno == $_SESSION['annoS'])
-                $annoScolastico= $annoScolastico."<option selected  value=".$codanno.">".$a."</option>";
+            if (!empty($_SESSION['annoS']) && $codanno == $_SESSION['annoS'])
+                $annoScolastico= $annoScolastico."<option selected  value=$codanno>$a</option>";
             else 
-                $annoScolastico= $annoScolastico."<option value=".$codanno.">".$a."</option>";
+                $annoScolastico= $annoScolastico."<option value=$codanno>$a</option>";
 
         }
             if($tipologiaDiProfilo == "gSis"){
             
                 echo '
                     <ul>
-                        <li><a href="inScuola.php">Inserisci Scuola</a></li>
+                        <li><a href="inCorsi.php">Inserisci corsi</a</li>
                         <li><a href="inReferente.php">Inserisci referente PCTO</a></li>
-                        <li><a href="vScuole.php">Visualizza Scuole</a></li>
-                        <li>
-                            <label>Anno scolastico:</label>
-                            <select id="annoScol" onchange="annoS(),Vcorsi('.$scuolaA.'),infoScuola()">'.$annoScolastico.'</select>
-                        </li>                    
+                        <li><a href="inReferenteInClasse.php">Inserisci referente PCTO in una classe</a></li>
+                        <li><a href="vCorsi.php">visualizza corsi</a></li>
+                        <li><a href="infoOreCorso.php">visualizza ore PCTO corsi</a></li>
+                        <li><a href="infoOreClasse.php">visualizza ore PCTO classe</a></li>
+                        <li><a href="infoScuola.php">visualizza dati scuola</a></li>
+                        <li><a href="esame5.php">Alunni di 5a pronti per esame di stato</a></li>
+                        <li><label>Anno scolastico:</label><select  id="annoScol" onchange="esameOre5('.$scuolaA.'),annoS(),corsoRef('.$id.',\'gSis\','.$scuolaA.'),Vcorsi('.$scuolaA.'),infoScuola('.$scuolaA.','.$id.'),classiRef('.$id.',\'gSis\','.$scuolaA.')">'.$annoScolastico.'</select></li>
+                                         
                     </ul>';
             }
                 
             if($tipologiaDiProfilo =="refPCTO"){
                 echo '
                     <ul>
-                        <li><a href="inCorsi.php">Inserisci corsi</a></li>
-                        <li><a href="vCorsi.php">visualizza corsi</a></li>
-                        <li><a href="infoOreClasse.php">visualizza ore PCTO corsi</a></li>
+                        <li><a href="vCorsi.php">Appello corsi</a></li>
+                        <li><a href="infoOreCorso.php">visualizza ore PCTO corsi</a></li>
                         <li><a href="infoOreClasse.php">visualizza ore PCTO classe</a></li>
                         <li><a href="infoScuola.php">visualizza dati scuola</a></li>
-                        <li><label>Anno scolastico:</label><select  id="annoScol" onchange="annoS(),Vcorsi('.$scuolaA.'),infoScuola('.$scuolaA.','.$id.'),classiRef('.$id.')">'.$annoScolastico.'</select></li>
+                        <li><a href="infoScuola.php">Alunni di 5a pronti per esame di stato</a></li>
+                        <li><label>Anno scolastico:</label><select  id="annoScol" onchange="annoS(),corsoRef('.$id.',\'refPCTO\','.$scuolaA.'),Vcorsi('.$scuolaA.'),infoScuola('.$scuolaA.','.$id.'),classiRef('.$id.',\'refPCTO\','.$scuolaA.')">'.$annoScolastico.'</select></li>
                                         
                 </ul>';
             }

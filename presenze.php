@@ -13,13 +13,10 @@
         foreach($_POST as $utente =>$key){
             if(empty($key['presente']))
                 $key['presente']="off";
-        if(mysqli_fetch_assoc(mysqli_query($DB,"SELECT CONCAT(appuntamento,utente) as 'aput' from presente;"))['aput']==($_GET['ID'].$utente))
-            registraPresenza($DB,$_GET['ID'],$utente,$key['presente'],$key['orePres'],true);
-        else
-            registraPresenza($DB,$_GET['ID'],$utente,$key['presente'],$key['orePres'],false);
-         
-            
-
+            if(mysqli_num_rows(mysqli_query($DB,"SELECT CONCAT(appuntamento,utente) as 'aput' from presente where appuntamento=$_GET[ID]  and utente=$utente;"))>0)
+                registraPresenza($DB,$_GET['ID'],$utente,$key['presente'],$key['orePres'],true);
+            else
+                registraPresenza($DB,$_GET['ID'],$utente,$key['presente'],$key['orePres'],false);
            
         }
 

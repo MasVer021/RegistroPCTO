@@ -1,5 +1,6 @@
 <?php
     include "home.php";
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -10,9 +11,10 @@
     <script src="js/asynreq.js"></script>
     <title>Document</title>
 </head>
-<body  onload="Vcorsi(<?php echo $scuolaA?>)">
-    <div>
-        <table id="corsi"></table>
-
-    </div>
+<body onload="corsoRef(<?php echo $id.',\''.$tipologiaDiProfilo.'\','.$scuolaA;?>)">
+    <br>
+    <br>
+    <div id="corsoRefPCTO"></div>
+    <div id="divAlunnic"></div>
 </body>
+</html>

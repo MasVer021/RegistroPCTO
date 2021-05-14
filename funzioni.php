@@ -20,9 +20,7 @@
  
     
     $sql = "SELECT  * FROM utente;";
-    
-
-    
+      
     if(isset($user) && isset($password)){
       $result= mysqli_query($db,$sql);
       if (mysqli_num_rows($result) > 0){ 
@@ -38,7 +36,6 @@
               $_SESSION["Foto"] = $row['foto'];
               $_SESSION["Tipo"] = $row['tipoProfilo'];
             }
-
       }else 
         echo "0 results";
     }
@@ -49,14 +46,14 @@
       header("Location: login.php?err=1");
     else{
       if( $_SESSION["Tipo"]=='Std' or  $_SESSION["Tipo"]=='exUt'){
-        $sql="SELECT classe,annoScolastico,scuola FROM forma,classe,scuola WHERE Utente=$_SESSION[ID] and classe.scuola=scuola.id and forma.classe=classe.id ORDER BY annoScolastico;";
+        $sql="SELECT classe,  annoScolastico,scuola FROM forma,classe,scuola WHERE Utente=$_SESSION[ID] and classe.scuola=scuola.id and forma.classe=classe.id ORDER BY annoScolastico;";
         $result= mysqli_query($db,$sql);
         while($row = mysqli_fetch_assoc($result)){
           $_SESSION["percorsoS"][$row["annoScolastico"]]["classe"]=$row["classe"];
           $_SESSION["percorsoS"][$row["annoScolastico"]]["scuola"]=$row["scuola"];
         }
       }
-      elseif ( $_SESSION["Tipo"]=='refPCTO'){
+      elseif ( $_SESSION["Tipo"]=='refPCTO' or $_SESSION["Tipo"]=='gSis'){
         $sql="SELECT annoScolastico,scuola FROM lavora WHERE Utente=$_SESSION[ID] ORDER BY annoScolastico;";
         $result= mysqli_query($db,$sql);
         while($row = mysqli_fetch_assoc($result))
@@ -114,7 +111,7 @@
 
   function giaRegistrato($db,$email){
 
-    $sql = "SELECT email,tipoProfilo,nome FROM utente;";
+    $sql = "SELECT * FROM utente;";
     $result= mysqli_query($db,$sql);
       if (mysqli_num_rows($result) > 0){
         while($row = mysqli_fetch_assoc($result))
@@ -208,11 +205,9 @@
     else
       $sql = "INSERT INTO presente (appuntamento,utente,orePresente,stato) VALUES($appuntamento,$utente,$orePresenza,$stato);";
 
-
-    
     $result = mysqli_query($db,$sql);
 
-     echo $sql."ciao";
+     echo $sql;
 
     if($result===TRUE)
         return false;

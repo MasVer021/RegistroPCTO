@@ -23,7 +23,6 @@ function provincie() {
 function inReferenti(){
     document.getElementById("fReferenti").innerHTML="";
     let nCorsi= document.getElementById("nReferenti").value;
-    console.log(nCorsi);
     for(let x=0;x<nCorsi;x++){
         let inputEmail = document.createElement("input");
         let labelEmail = document.createElement("label");
@@ -40,7 +39,6 @@ function inReferenti(){
 function inClassi(){
     document.getElementById("fClassi").innerHTML="";
     let nCorsi= document.getElementById("nCorsi").value;
-    console.log(nCorsi);
     for(let x=0;x<nCorsi;x++){
         let inputLettera = document.createElement("input");
         let labelLettera = document.createElement("label");
@@ -60,16 +58,19 @@ function annoS() {
     let request = new XMLHttpRequest();
     request.onreadystatechange = function(){
         let ris = this.responseText;
-        console.log(ris);
     }
-    let service = "serverA.php?use=ans&&an="+document.getElementById("annoScol").value;
-
-    console.log(service);
+    let service = "serverA.php?use=ans&&an="+document.getElementById("annoScol").value; 
     request.open("GET",service,true);
     request.send();
 
+
+
+
+
+
    
 }
+
 function infoScuola(scuola,id) {
     let request = new XMLHttpRequest();
     request.onreadystatechange = function(){
@@ -77,33 +78,26 @@ function infoScuola(scuola,id) {
         document.getElementById("datiscuola").innerHTML=ris;
     }
     let service = "serverA.php?use=ins&&sc="+scuola+"&&anno="+document.getElementById("annoScol").value+"&&utente="+id+"";
-
-    console.log(service);
-
     request.open("GET",service,true);
     request.send();
 }
+
 function Vcorsi(scuola) {
     let request = new XMLHttpRequest();
     request.onreadystatechange = function(){
         let ris = this.responseText;
         document.getElementById("corsi").innerHTML=ris;
-        console.log(ris);
     }
     let service = "serverA.php?use=vco&&sc="+scuola+"&&anno="+document.getElementById("annoScol").value;
-    console.log(service);
-    console.log(service);
     request.open("GET",service,true);
     request.send();
 }
+
 function mySchool() {
     let request = new XMLHttpRequest();
     request.onreadystatechange = function(){
         let ris = this.responseText;
-        document.getElementById("classe").innerHTML="<option>selezione classe</option>"+ris;
-        
-        console.log(ris);
-        
+        document.getElementById("classe").innerHTML="<option>selezione classe</option>"+ris;  
     }
     let service = "serverA.php?use=cla&&sc="+document.getElementById("scuola").value;
     request.open("GET",service,true);
@@ -114,16 +108,67 @@ function noCAnno(){
     document.getElementById("annoScol").disabled = true;
 }
 
-function classiRef(id){
+function classiRef(id,tipologia,scuola){
+    
     let request = new XMLHttpRequest();
     request.onreadystatechange = function(){
         let ris = this.responseText;
-        document.getElementById("classiRefPCTO").innerHTML=ris;
-        
-        
-        
+        document.getElementById("classiRefPCTO").innerHTML=ris;  
     }
-    let service = "serverA.php?use=vic&&anno="+document.getElementById("annoScol").value+"&&utente="+id+"";
+    let service = "serverA.php?use=vic&&anno="+document.getElementById("annoScol").value+"&&utente="+id+"&&tipologia="+tipologia+"&&sc="+scuola+"";
+    console.log(service);
+    request.open("GET",service,true);
+    request.send();
+    setTimeout(() => { infoAlunniClasse(); }, 200);
+    //infoAlunniClasse();
+}
+function infoAlunniClasse(){
+    let request = new XMLHttpRequest();
+    request.onreadystatechange = function(){
+        let ris = this.responseText;
+        document.getElementById("divAlunni").innerHTML=ris;  
+    }
+    let service = "serverA.php?use=infAlC&&anno="+document.getElementById("annoScol").value+"&&codiceclasse="+document.getElementById("alunniClasse").value+"";
+    console.log(service);
+    request.open("GET",service,true);
+    request.send();
+}
+
+function corsoRef(id,tipologia,scuola){
+    let request = new XMLHttpRequest();
+    request.onreadystatechange = function(){
+        let ris = this.responseText;
+        document.getElementById("corsoRefPCTO").innerHTML=ris;  
+    }
+    let service = "serverA.php?use=vico&&anno="+document.getElementById("annoScol").value+"&&utente="+id+"&&tipologia="+tipologia+"&&sc="+scuola+"";
+    console.log(service);
+    request.open("GET",service,true);
+    request.send();
+    setTimeout(() => { infoAlunniCorso(); }, 200);
+    //infoAlunniCorso();
+}
+
+function infoAlunniCorso(){
+    let request = new XMLHttpRequest();
+    request.onreadystatechange = function(){
+        let ris = this.responseText;
+        document.getElementById("divAlunnic").innerHTML=ris;  
+    }
+    let service = "serverA.php?use=infAlCo&&anno="+document.getElementById("annoScol").value+"&&codicecorso="+document.getElementById("alunniCorso").value+"";
+    console.log(document.getElementById("alunniCorso").value);
+    console.log(service);
+    request.open("GET",service,true);
+    request.send();
+}
+
+function esameOre5(scuola){
+    let request = new XMLHttpRequest();
+    request.onreadystatechange = function(){
+        let ris = this.responseText;
+        document.getElementById("alunniPerEsame").innerHTML=ris;  
+    }
+    let service = "serverA.php?use=esameOre5&&anno="+document.getElementById("annoScol").value+"&&sc="+scuola+"";
+    console.log(service);
     request.open("GET",service,true);
     request.send();
 }
