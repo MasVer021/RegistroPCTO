@@ -27,12 +27,12 @@
         echo '<tr><th colspan="4">Corso</th><th rowspan="2">Percentuale Presenza</th><th rowspan="2">Ore guadagnate</th></tr>';
         echo '<tr><th>Nome corso</th><th>tutor interno</th><th>tutor esterno</th><th>monte ore </th></tr>';
 
-        $corsi =  "SELECT corso.ID,corso.nome, tutorEsterno,monteore,CONCAT(utente.cognome,utente.nome) as tutorInterno FROM corso,attivato,classe,utente,tutorcorso WHERE tutorcorso.utente=utente.id and tutorcorso.corso=corso.id and tutorcorso.annoscolastico=$anno and attivato.corso=corso.id and attivato.classe=classe.id and classe.scuola='$Sc[scuola]' and attivato.annoscolastico=$anno group by corso.id,utente.id;";
+        $corsi =  "SELECT corso.ID,corso.nome, tutorEsterno,monteore,CONCAT(utente.cognome,' ',utente.nome) as tutorInterno FROM corso,attivato,classe,utente,tutorcorso,iscritto WHERE  iscritto.utente=$id and iscritto.corso=corso.id and tutorcorso.utente=utente.id and tutorcorso.corso=corso.id and tutorcorso.annoscolastico=$anno and attivato.corso=corso.id and attivato.classe=classe.id and classe.scuola='$Sc[scuola]' and attivato.annoscolastico=$anno group by corso.id,utente.id;";
         $corsiR= mysqli_query($DB,$corsi);
 
         $somma [$x]=0;
         while($row = mysqli_fetch_assoc($corsiR)){
-            $presenze = "SELECT SUM(orePresente) as oreP from presente,appuntamento where utente = $id and stato='Presente' and annoscolastico =$anno and presente.appuntamento=appuntamento.id ;";
+            $presenze = "SELECT SUM(orePresente) as oreP from presente,appuntamento where utente = $id and stato='Presente' and annoscolastico =$anno and presente.appuntamento=appuntamento.id and appuntamento.corso=$row[ID] ;";
             $oreG= mysqli_query($DB,$presenze);
             $oreG = mysqli_fetch_assoc($oreG)['oreP'];
             echo "<tr><td><a href=appuntamento.php?ID=$row[ID]>$row[nome]</a></td><td>$row[tutorInterno]</td><td>$row[tutorEsterno]</td><td>".$row['monteore']."</td><td>".(($oreG/$row['monteore'])*100)."%</td><td>$oreG</td></tr>";

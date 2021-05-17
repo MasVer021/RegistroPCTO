@@ -108,7 +108,8 @@
                         <li><a href="infoOreClasse.php">visualizza ore PCTO classe</a></li>
                         <li><a href="infoScuola.php">visualizza dati scuola</a></li>
                         <li><a href="esame5.php">Alunni di 5a pronti per esame di stato</a></li>
-                        <li><label>Anno scolastico:</label><select  id="annoScol" onchange="esameOre5('.$scuolaA.'),annoS(),corsoRef('.$id.',\'gSis\','.$scuolaA.'),Vcorsi('.$scuolaA.'),infoScuola('.$scuolaA.','.$id.'),classiRef('.$id.',\'gSis\','.$scuolaA.')">'.$annoScolastico.'</select></li>
+                        <li><a href="corsiNonCompletati.php">Corsi non completati da nessuno studente</a></li>
+                        <li><label>Anno scolastico:</label><select  id="annoScol" onchange="corsiNonCompletatiDaNessuno('.$scuolaA.'),esameOre5('.$scuolaA.'),annoS(),corsoRef('.$id.',\'gSis\','.$scuolaA.'),Vcorsi('.$id.',\'gSis\','.$scuolaA.'),infoScuola('.$scuolaA.','.$id.'),classiRef('.$id.',\'gSis\','.$scuolaA.')">'.$annoScolastico.'</select></li>
                                          
                     </ul>';
             }
@@ -120,8 +121,7 @@
                         <li><a href="infoOreCorso.php">visualizza ore PCTO corsi</a></li>
                         <li><a href="infoOreClasse.php">visualizza ore PCTO classe</a></li>
                         <li><a href="infoScuola.php">visualizza dati scuola</a></li>
-                        <li><a href="infoScuola.php">Alunni di 5a pronti per esame di stato</a></li>
-                        <li><label>Anno scolastico:</label><select  id="annoScol" onchange="annoS(),corsoRef('.$id.',\'refPCTO\','.$scuolaA.'),Vcorsi('.$scuolaA.'),infoScuola('.$scuolaA.','.$id.'),classiRef('.$id.',\'refPCTO\','.$scuolaA.')">'.$annoScolastico.'</select></li>
+                        <li><label>Anno scolastico:</label><select  id="annoScol" onchange="annoS(),corsoRef('.$id.',\'refPCTO\','.$scuolaA.'),Vcorsi('.$id.',\'refPCTO\','.$scuolaA.'),infoScuola('.$scuolaA.','.$id.'),classiRef('.$id.',\'refPCTO\','.$scuolaA.')">'.$annoScolastico.'</select></li>
                                         
                 </ul>';
             }

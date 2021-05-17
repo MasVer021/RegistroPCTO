@@ -1,6 +1,8 @@
 <?php
     include "home.php";
-?>
+   
+?> 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,9 +12,10 @@
     <script src="js/asynreq.js"></script>
     <title>Document</title>
 </head>
-<body  onload="Vcorsi(<?php echo $id.',\''.$tipologiaDiProfilo.'\','.$scuolaA;?>)">
+<body  onload="corsiNonCompletatiDaNessuno(<?php echo $scuolaA;?>)">
     <div>
-        <table id="corsi"></table>
+        <br><br>
+        <table id="corsiNonCompletati"></table>
 
     </div>
 </body>

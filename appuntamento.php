@@ -22,7 +22,7 @@
     </head>
     <body onload="noCAnno()">
       <?php
-        if($tipologiaDiProfilo =="refPCTO" or $tipologiaDiProfilo="gSis" )
+        if($tipologiaDiProfilo =="refPCTO" or $tipologiaDiProfilo=="gSis" )
                 echo '
                 <ul>
                 <li><a href="inAppuntamento.php?ID='.$_GET['ID'].'">inserisci appuntamenti</a></li>
@@ -56,7 +56,7 @@
             <tr><th>Data appuntamento</th><th>ora appuntamento</th><th>luogo appuntamento</th><th>premio ore appuntamento</th></tr>
         
             <?php
-               if($tipologiaDiProfilo =="refPCTO" or $tipologiaDiProfilo="gSis")
+               if($tipologiaDiProfilo =="refPCTO" or $tipologiaDiProfilo=="gSis")
                     while($row = mysqli_fetch_assoc($result)){
                         echo "<tr><td><a href='presenze.php?ID=$row[id]&&IDC=$_GET[ID]'>$row[data]</a></td><td>$row[ora]</td><td>$row[luogo]</td><td>$row[premioore]</td></tr>";
                     }

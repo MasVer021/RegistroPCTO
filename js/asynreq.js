@@ -82,13 +82,13 @@ function infoScuola(scuola,id) {
     request.send();
 }
 
-function Vcorsi(scuola) {
+function Vcorsi(id,tipologia,scuola) {
     let request = new XMLHttpRequest();
     request.onreadystatechange = function(){
         let ris = this.responseText;
         document.getElementById("corsi").innerHTML=ris;
     }
-    let service = "serverA.php?use=vco&&sc="+scuola+"&&anno="+document.getElementById("annoScol").value;
+    let service = "serverA.php?use=vco&&sc="+scuola+"&&anno="+document.getElementById("annoScol").value+"&&utente="+id+"&&tipologia="+tipologia;
     request.open("GET",service,true);
     request.send();
 }
@@ -119,14 +119,12 @@ function classiRef(id,tipologia,scuola){
     console.log(service);
     request.open("GET",service,true);
     request.send();
-    setTimeout(() => { infoAlunniClasse(); }, 200);
-    //infoAlunniClasse();
 }
 function infoAlunniClasse(){
     let request = new XMLHttpRequest();
     request.onreadystatechange = function(){
         let ris = this.responseText;
-        document.getElementById("divAlunni").innerHTML=ris;  
+        document.getElementById("divAlunni").innerHTML=ris;          
     }
     let service = "serverA.php?use=infAlC&&anno="+document.getElementById("annoScol").value+"&&codiceclasse="+document.getElementById("alunniClasse").value+"";
     console.log(service);
@@ -144,8 +142,7 @@ function corsoRef(id,tipologia,scuola){
     console.log(service);
     request.open("GET",service,true);
     request.send();
-    setTimeout(() => { infoAlunniCorso(); }, 200);
-    //infoAlunniCorso();
+    
 }
 
 function infoAlunniCorso(){
@@ -168,6 +165,19 @@ function esameOre5(scuola){
         document.getElementById("alunniPerEsame").innerHTML=ris;  
     }
     let service = "serverA.php?use=esameOre5&&anno="+document.getElementById("annoScol").value+"&&sc="+scuola+"";
+    console.log(service);
+    request.open("GET",service,true);
+    request.send();
+}
+
+
+function corsiNonCompletatiDaNessuno(scuola){
+    let request = new XMLHttpRequest();
+    request.onreadystatechange = function(){
+        let ris = this.responseText;
+        document.getElementById("corsiNonCompletati").innerHTML=ris;  
+    }
+    let service = "serverA.php?use=CorsoNonCompetato&&anno="+document.getElementById("annoScol").value+"&&sc="+scuola+"";
     console.log(service);
     request.open("GET",service,true);
     request.send();
