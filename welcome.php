@@ -34,6 +34,8 @@
         }
         else
             echo "utente già presente";
+
+            header( "refresh:5; url=index.php" ); 
         
     
 

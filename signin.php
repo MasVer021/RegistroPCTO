@@ -107,7 +107,7 @@
         </div>
         
                 <p><input type="submit" value="Sign up"></p>
-                <p id="btnReg">Gia registrato?<a href="Login.php">Accedi qui</a></p>
+                <p id="btnReg">Gia registrato?<a href="index.php">Accedi qui</a></p>
             </form> 
         
 

@@ -40,10 +40,10 @@
         echo "0 results";
     }
       else
-        header("Location: login.php?err=1");
+        header("Location: index.php?err=1");
      
     if(empty($_SESSION["Email"]))
-      header("Location: login.php?err=1");
+      header("Location: index.php?err=1");
     else{
       if( $_SESSION["Tipo"]=='Std' or  $_SESSION["Tipo"]=='exUt'){
         $sql="SELECT classe,  annoScolastico,scuola FROM forma,classe,scuola WHERE Utente=$_SESSION[ID] and classe.scuola=scuola.id and forma.classe=classe.id ORDER BY annoScolastico;";

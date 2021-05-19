@@ -48,7 +48,7 @@
     }
     $_POST=NULL;
 
-
+    header( "refresh:5; url=index.php" ); 
 
 
 

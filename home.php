@@ -73,7 +73,7 @@
             echo "<p>Codice fiscale:<br>".$cv."</p>";
             if($tipologiaDiProfilo == "Std")
                 echo "<p>Ore di PCTO svolte :<br>".$OrePCTO."</p>";
-            echo "<a href='Login.php'><div id='logout'>Logout</div></a>";
+            echo "<a href='index.php'><div id='logout'>Logout</div></a>";
             
         ?>   
     </div>
